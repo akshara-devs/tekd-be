@@ -1,13 +1,30 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/akshara-devs/tekd-be/pkg"
+	"github.com/akshara-devs/tekd-be/router"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	router := gin.Default()
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	router.Run(":8000")
+	config := pkg.LoadConfig()
+	gin.SetMode(config.RunMode)
+
+	initRouter := router.InitRouter()
+	endPoint := fmt.Sprintf(":%d", config.HttpPort)
+
+	server := &http.Server{
+		Addr:         endPoint,
+		Handler:      initRouter,
+		ReadTimeout:  config.ReadTimeout,
+		WriteTimeout: config.WriteTimeout,
+	}
+
+	log.Printf("[info] start http server listening %s", endPoint)
+
+	server.ListenAndServe()
 }
