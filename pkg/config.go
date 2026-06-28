@@ -14,6 +14,7 @@ type Config struct {
 	RunMode      string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
+	DatabaseURL  string
 }
 
 func LoadConfig() *Config {
@@ -29,6 +30,7 @@ func LoadConfig() *Config {
 		RunMode:      getEnv("RUN_MODE", "debug"),
 		ReadTimeout:  readTimeOut,
 		WriteTimeout: writeTimeOut,
+		DatabaseURL:  getEnv("DATABASE_URL", "host=localhost user=postgres password=postgres dbname=tekd port=5432"),
 	}
 }
 

@@ -12,6 +12,7 @@ import (
 
 func main() {
 	config := pkg.LoadConfig()
+	pkg.ConnectDatabase(config.DatabaseURL)
 	gin.SetMode(config.RunMode)
 
 	initRouter := router.InitRouter()

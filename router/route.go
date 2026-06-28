@@ -13,9 +13,14 @@ func InitRouter() *gin.Engine {
 
 	routerV1 := router.Group("/api/v1")
 
-	{
-		routerV1.GET("/hello", v1.Hello)
-	}
+	routerV1.GET("/hello", v1.Hello)
+
+	routerUsers := routerV1.Group("/users")
+	routerUsers.POST("/", v1.CreateUser)
+	routerUsers.GET("/", v1.ListUsers)
+	routerUsers.GET("/:id", v1.GetUser)
+	routerUsers.PUT("/:id", v1.UpdateUser)
+	routerUsers.DELETE("/:id", v1.DeleteUser)
 
 	return router
 }
